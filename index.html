@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YojnaXpert – India Government Scheme Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --saffron: #FF6B00;
+  --saffron-light: #FF8C3A;
+  --green: #138808;
+  --green-light: #1AAD0A;
+  --navy: #000080;
+  --bg: #F7F4EF;
+  --bg2: #FFFDF9;
+  --text: #1A1A2E;
+  --muted: #6B6B80;
+  --border: #E2DDD5;
+  --white: #FFFFFF;
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 99px; }
+
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white);
+  border-bottom: 2px solid var(--saffron);
+  padding: 0 32px;
+  display: flex; align-items: center;
+  height: 64px;
+  box-shadow: 0 2px 12px rgba(255,107,0,0.1);
+}
+
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text);
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900;
+}
+
+.nav-flag {
+  width: 36px; height: 24px;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  border-radius: 3px; overflow: hidden;
+  border: 1px solid #ddd;
+}
+.nav-flag .f1 { background: var(--saffron); }
+.nav-flag .f2 { background: white; display:flex; align-items:center; justify-content:center; font-size:10px; }
+.nav-flag .f3 { background: var(--green); }
+
+.nav-links { display: flex; align-items: center; gap: 4px; margin-left: 32px; }
+.nav-link {
+  padding: 8px 16px; border-radius: 8px;
+  text-decoration: none; color: var(--muted);
+  font-weight: 500; font-size: 14px;
+  cursor: pointer; border: none; background: none;
+  transition: all 0.2s;
+}
+.nav-link:hover, .nav-link.active { color: var(--saffron); background: rgba(255,107,0,0.08); }
+
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+
+.btn { padding: 9px 20px; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: all 0.2s; }
+.btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--saffron); color: var(--saffron); }
+.btn-primary { background: var(--saffron); color: white; }
+.btn-primary:hover { background: var(--saffron-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,107,0,0.3); }
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: var(--green-light); }
+.btn-danger { background: #DC2626; color: white; }
+.btn-sm { padding: 6px 14px; font-size: 13px; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #fff9f4 0%, #fff5e6 40%, #f0fff0 100%);
+  padding: 80px 40px 60px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+
+.hero::before {
+  content: 'अशोक चक्र';
+  position: absolute; top: 20px; right: -20px;
+  font-family: 'Tiro Devanagari Hindi', serif;
+  font-size: 120px; color: rgba(0,0,128,0.03);
+  transform: rotate(-10deg); pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(19,136,8,0.1);
+  border: 1px solid rgba(19,136,8,0.3);
+  color: var(--green); border-radius: 99px;
+  padding: 6px 16px; font-size: 13px; font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900; line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero h1 span { color: var(--saffron); }
+.hero h1 .green { color: var(--green); }
+
+.hero p {
+  font-size: 18px; color: var(--muted);
+  max-width: 560px; margin: 0 auto 36px;
+  line-height: 1.6;
+}
+
+.hero-search {
+  display: flex; align-items: center;
+  background: white; border-radius: 14px;
+  border: 2px solid var(--border);
+  max-width: 620px; margin: 0 auto 32px;
+  padding: 6px 6px 6px 20px;
+  box-shadow: var(--shadow-lg);
+  transition: border-color 0.2s;
+}
+.hero-search:focus-within { border-color: var(--saffron); }
+.hero-search input {
+  flex: 1; border: none; outline: none;
+  font-family: 'DM Sans', sans-serif; font-size: 16px;
+  background: transparent; color: var(--text);
+}
+.hero-search input::placeholder { color: var(--muted); }
+.hero-search button { flex-shrink: 0; }
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--saffron); }
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* ── CATEGORY PILLS ── */
+.cats-section { padding: 32px 40px; }
+.cats-section h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.cats-scroll { display: flex; gap: 10px; flex-wrap: wrap; }
+.cat-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 99px;
+  background: white; border: 1.5px solid var(--border);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: all 0.2s; color: var(--text);
+}
+.cat-pill:hover { border-color: var(--saffron); color: var(--saffron); transform: translateY(-2px); }
+.cat-pill.active { background: var(--saffron); color: white; border-color: var(--saffron); }
+.cat-pill .cat-emoji { font-size: 16px; }
+
+/* ── SCHEMES GRID ── */
+.schemes-section { padding: 0 40px 60px; }
+.schemes-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.schemes-header h2 { font-size: 22px; font-weight: 700; }
+.filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.filter-select {
+  padding: 8px 14px; border-radius: 9px;
+  border: 1.5px solid var(--border); background: white;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--text); cursor: pointer;
+}
+.filter-select:focus { outline: none; border-color: var(--saffron); }
+
+.schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+
+.scheme-card {
+  background: white; border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  overflow: hidden; transition: all 0.25s;
+  display: flex; flex-direction: column;
+}
+.scheme-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--saffron); }
+
+.card-header { padding: 20px 20px 14px; }
+.card-cat {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+  margin-bottom: 10px;
+}
+.card-title { font-size: 17px; font-weight: 700; line-height: 1.35; margin-bottom: 6px; }
+.card-ministry { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+
+.card-body { padding: 0 20px 16px; flex: 1; }
+.card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.card-tag { font-size: 11px; padding: 3px 9px; border-radius: 5px; background: var(--bg); color: var(--muted); }
+
+.card-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px;
+}
+
+/* Category colors */
+.cat-Agriculture { background: #FFF7E6; color: #B45309; }
+.cat-Housing { background: #FFF1F0; color: #DC2626; }
+.cat-Health { background: #F0FFF4; color: #166534; }
+.cat-Education { background: #EFF6FF; color: #1D4ED8; }
+.cat-Women { background: #FDF4FF; color: #7E22CE; }
+.cat-Business { background: #FFFBEB; color: #92400E; }
+.cat-Social { background: #F0FAFB; color: #0E7490; }
+.cat-Financial { background: #F0FFF0; color: var(--green); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: white; border-radius: 20px;
+  max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto;
+  transform: translateY(20px); transition: transform 0.25s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header {
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: white; z-index: 1;
+}
+.modal-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.modal-ministry { font-size: 13px; color: var(--muted); }
+.modal-close { position: absolute; right: 24px; top: 24px; background: var(--bg); border: none; border-radius: 8px; width: 32px; height: 32px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.modal-body { padding: 24px 28px; }
+.info-section { margin-bottom: 24px; }
+.info-section h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--saffron); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.info-section p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.docs-list { list-style: none; }
+.docs-list li { font-size: 14px; color: var(--muted); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+.docs-list li::before { content: '📄'; font-size: 12px; }
+
+/* ── AUTH MODAL ── */
+.auth-form { max-width: 420px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+.form-input {
+  width: 100%; padding: 11px 14px; border-radius: 9px;
+  border: 1.5px solid var(--border); background: var(--bg);
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--text); transition: border-color 0.2s;
+}
+.form-input:focus { outline: none; border-color: var(--saffron); background: white; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-error { color: #DC2626; font-size: 13px; margin-top: 8px; }
+.form-success { color: var(--green); font-size: 13px; margin-top: 8px; }
+
+/* ── PROFILE / ELIGIBILITY ── */
+.profile-header {
+  background: linear-gradient(135deg, #fff9f4, #fff5e6);
+  padding: 40px;
+  border-bottom: 2px solid var(--border);
+}
+.profile-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--saffron); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 700;
+  margin-bottom: 16px;
+}
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 40px; }
+
+/* ── ADMIN ── */
+.admin-layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 64px); }
+.admin-sidebar { background: var(--navy); padding: 24px 0; }
+.admin-logo { padding: 0 24px 24px; color: white; font-weight: 700; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px; }
+.admin-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 24px; color: rgba(255,255,255,0.6);
+  cursor: pointer; transition: all 0.2s; font-size: 14px;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.admin-nav-item:hover, .admin-nav-item.active { background: rgba(255,255,255,0.1); color: white; }
+.admin-content { padding: 32px; background: var(--bg); }
+.admin-content h1 { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card {
+  background: white; border-radius: var(--radius); padding: 20px;
+  border: 1.5px solid var(--border);
+}
+.stat-card .label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-card .value { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--saffron); margin-top: 4px; }
+.data-table { width: 100%; border-collapse: collapse; background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.data-table th { background: var(--navy); color: white; padding: 12px 16px; text-align: left; font-size: 13px; font-weight: 600; }
+.data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg); }
+
+/* ── PAGINATION ── */
+.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
+.page-btn {
+  width: 38px; height: 38px; border-radius: 9px;
+  border: 1.5px solid var(--border); background: white;
+  font-size: 14px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.page-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+.page-btn.active { background: var(--saffron); color: white; border-color: var(--saffron); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  background: var(--text); color: white; padding: 14px 20px;
+  border-radius: 10px; font-size: 14px; font-weight: 500;
+  transform: translateY(20px); opacity: 0; transition: all 0.3s;
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--green); }
+.toast.error { background: #DC2626; }
+
+/* ── ELIGIBILITY CHECKER ── */
+.eligibility-banner {
+  background: linear-gradient(135deg, #000080 0%, #0A0A5E 100%);
+  color: white; padding: 40px;
+  border-radius: var(--radius); margin: 0 40px 32px;
+  position: relative; overflow: hidden;
+}
+.eligibility-banner::after {
+  content: '🇮🇳'; position: absolute; right: 40px; top: 50%;
+  transform: translateY(-50%); font-size: 80px; opacity: 0.1;
+}
+.eligibility-banner h2 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+.eligibility-banner p { opacity: 0.8; margin-bottom: 20px; }
+
+/* ── LOADING ── */
+.loading { display: flex; justify-content: center; padding: 60px; }
+.spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--saffron); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; }
+  .nav-links { display: none; }
+  .hero { padding: 48px 20px 40px; }
+  .cats-section, .schemes-section { padding: 20px; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .admin-layout { grid-template-columns: 1fr; }
+  .admin-sidebar { display: none; }
+  .form-grid { grid-template-columns: 1fr; }
+  .eligibility-banner { margin: 0 20px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="nav-brand" href="#" onclick="showPage('home')">
+    <div class="nav-flag">
+      <div class="f1"></div>
+      <div class="f2">⊕</div>
+      <div class="f3"></div>
+    </div>
+    YojnaXpert
+  </a>
+  <div class="nav-links">
+    <button class="nav-link active" id="nav-home" onclick="showPage('home')">🏠 Home</button>
+    <button class="nav-link" id="nav-schemes" onclick="showPage('schemes')">📋 All Schemes</button>
+    <button class="nav-link" id="nav-eligible" onclick="showPage('eligible')">✅ Check Eligibility</button>
+    <button class="nav-link" id="nav-saved" onclick="showPage('saved')">🔖 Saved</button>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <button class="btn btn-outline" onclick="openModal('loginModal')">Login</button>
+    <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
+  </div>
+</nav>
+
+<!-- ════════════════ HOME PAGE ════════════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">🇮🇳 Government of India Welfare Schemes</div>
+    <h1>Find Your <span>Benefit.</span><br>Know Your <span class="green">Rights.</span></h1>
+    <p>Discover 100+ central & state government schemes tailored to your eligibility, income, and needs.</p>
+    <div class="hero-search">
+      <input type="text" id="hero-search-input" placeholder="Search schemes — PM Kisan, Ayushman, Mudra..." onkeydown="if(event.key==='Enter')heroSearch()">
+      <button class="btn btn-primary" onclick="heroSearch()">Search →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num" id="stat-schemes">12</div><div class="stat-label">Active Schemes</div></div>
+      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Categories</div></div>
+      <div class="stat-item"><div class="stat-num">28</div><div class="stat-label">States Covered</div></div>
+    </div>
+  </div>
+
+  <div class="cats-section">
+    <h2>Browse by Category</h2>
+    <div class="cats-scroll" id="home-categories"></div>
+  </div>
+
+  <div class="schemes-section">
+    <div class="schemes-header">
+      <h2>Featured Schemes</h2>
+    </div>
+    <div class="schemes-grid" id="home-schemes-grid"></div>
+  </div>
+</div>
+
+<!-- ════════════════ ALL SCHEMES PAGE ════════════════ -->
+<div id="page-schemes" class="page">
+  <div style="padding: 32px 40px 0">
+    <h1 style="font-size:28px;font-weight:700;margin-bottom:6px">All Government Schemes</h1>
+    <p style="color:var(--muted);margin-bottom:24px">Browse and filter all available welfare schemes</p>
+    <div class="filter-row" style="margin-bottom:24px">
+      <input class="form-input" style="max-width:280px" type="text" id="schemes-search" placeholder="🔍 Search schemes..." oninput="loadSchemes()">
+      <select class="filter-select" id="filter-category" onchange="loadSchemes()">
+        <option value="">All Categories</option>
+      </select>
+      <select class="filter-select" id="filter-gender" onchange="loadSchemes()">
+        <option value="">All Gender</option>
+        <option>Male</option><option>Female</option>
+      </select>
+      <input class="filter-select" type="number" id="filter-age" placeholder="Your Age" style="width:110px" oninput="loadSchemes()">
+    </div>
+  </div>
+  <div class="schemes-section" style="padding-top:0">
+    <div class="schemes-grid" id="all-schemes-grid"></div>
+    <div class="pagination" id="schemes-pagination"></div>
+  </div>
+</div>
+
+<!-- ════════════════ ELIGIBILITY PAGE ════════════════ -->
+<div id="page-eligible" class="page">
+  <div class="eligibility-banner">
+    <h2>🎯 Eligibility Checker</h2>
+    <p>Complete your profile and we'll show all schemes you qualify for.</p>
+    <button class="btn btn-primary" onclick="checkEligibility()">Check My Eligibility</button>
+  </div>
+  <div class="schemes-section" style="padding-top:0">
+    <div id="eligible-schemes-grid" class="schemes-grid"></div>
+    <div class="empty-state" id="eligible-empty" style="display:none">
+      <div class="empty-icon">👤</div>
+      <h3>Please log in and complete your profile</h3>
+      <p>We use your age, gender, state and income to find matching schemes</p>
+      <button class="btn btn-primary" style="margin-top:16px" onclick="openModal('loginModal')">Login to Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ SAVED PAGE ════════════════ -->
+<div id="page-saved" class="page">
+  <div style="padding: 32px 40px 0">
+    <h1 style="font-size:28px;font-weight:700;margin-bottom:6px">🔖 Saved Schemes</h1>
+    <p style="color:var(--muted);margin-bottom:24px">Schemes you've bookmarked for later</p>
+  </div>
+  <div class="schemes-section" style="padding-top:0">
+    <div class="schemes-grid" id="saved-grid"></div>
+    <div class="empty-state" id="saved-empty" style="display:none">
+      <div class="empty-icon">📭</div>
+      <h3>No saved schemes yet</h3>
+      <p>Bookmark schemes to easily find them later</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ PROFILE PAGE ════════════════ -->
+<div id="page-profile" class="page">
+  <div class="profile-header">
+    <div class="profile-avatar" id="profile-avatar">A</div>
+    <h1 style="font-size:24px;font-weight:700" id="profile-name">User Name</h1>
+    <p style="color:var(--muted)" id="profile-email">email@example.com</p>
+  </div>
+  <div class="profile-grid">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:20px">Update Profile</h2>
+      <div class="form-group"><label>Full Name</label><input class="form-input" id="edit-name" type="text"></div>
+      <div class="form-grid">
+        <div class="form-group"><label>Age</label><input class="form-input" id="edit-age" type="number"></div>
+        <div class="form-group"><label>Gender</label>
+          <select class="form-input" id="edit-gender">
+            <option>Male</option><option>Female</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>State</label><select class="form-input" id="edit-state">
+        <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+      </select></div>
+      <div class="form-grid">
+        <div class="form-group"><label>Category</label><select class="form-input" id="edit-category"><option>General</option><option>SC</option><option>ST</option><option>OBC</option><option>Minority</option></select></div>
+        <div class="form-group"><label>Annual Income</label><select class="form-input" id="edit-income"><option>Below 1 LPA</option><option>1-2.5 LPA</option><option>2.5-5 LPA</option><option>5-10 LPA</option><option>Above 10 LPA</option></select></div>
+      </div>
+      <div class="form-group"><label>Occupation</label><select class="form-input" id="edit-occupation"><option>Farmer</option><option>Laborer</option><option>Self-employed</option><option>Government Employee</option><option>Private Employee</option><option>Student</option><option>Housewife</option><option>Unemployed</option></select></div>
+      <button class="btn btn-primary" onclick="updateProfile()">Save Profile</button>
+      <span id="profile-msg"></span>
+    </div>
+    <div>
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:20px">Your Stats</h2>
+      <div class="stat-card" style="margin-bottom:16px"><div class="label">Saved Schemes</div><div class="value" id="stat-saved">0</div></div>
+      <div class="stat-card"><div class="label">Eligible Schemes</div><div class="value" id="stat-eligible">–</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ ADMIN PAGE ════════════════ -->
+<div id="page-admin" class="page">
+  <div class="admin-layout">
+    <div class="admin-sidebar">
+      <div class="admin-logo">⚙️ Admin Panel</div>
+      <button class="admin-nav-item active" id="admin-nav-dash" onclick="adminTab('dash')">📊 Dashboard</button>
+      <button class="admin-nav-item" id="admin-nav-schemes-list" onclick="adminTab('schemes-list')">📋 Schemes</button>
+      <button class="admin-nav-item" id="admin-nav-add" onclick="adminTab('add')">➕ Add Scheme</button>
+      <button class="admin-nav-item" id="admin-nav-users" onclick="adminTab('users')">👥 Users</button>
+    </div>
+    <div class="admin-content">
+      <!-- Dashboard -->
+      <div id="admin-dash">
+        <h1>Dashboard</h1>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="label">Total Schemes</div><div class="value" id="a-total-schemes">–</div></div>
+          <div class="stat-card"><div class="label">Total Users</div><div class="value" id="a-total-users">–</div></div>
+          <div class="stat-card"><div class="label">Saved (total)</div><div class="value" id="a-total-saved">–</div></div>
+        </div>
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:16px">Schemes by Category</h2>
+        <div id="admin-cat-breakdown"></div>
+      </div>
+
+      <!-- Schemes List -->
+      <div id="admin-schemes-list" style="display:none">
+        <h1>All Schemes</h1>
+        <table class="data-table" id="admin-schemes-table">
+          <thead><tr><th>#</th><th>Title</th><th>Category</th><th>State</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="admin-schemes-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Add Scheme -->
+      <div id="admin-add" style="display:none">
+        <h1>Add New Scheme</h1>
+        <div style="background:white;border-radius:var(--radius);padding:28px;border:1.5px solid var(--border)">
+          <div class="form-group"><label>Title</label><input class="form-input" id="a-title"></div>
+          <div class="form-group"><label>Description</label><textarea class="form-input" id="a-desc" rows="3" style="resize:vertical"></textarea></div>
+          <div class="form-grid">
+            <div class="form-group"><label>Ministry</label><input class="form-input" id="a-ministry"></div>
+            <div class="form-group"><label>Category</label>
+              <select class="form-input" id="a-category">
+                <option>Agriculture</option><option>Housing</option><option>Health</option><option>Education</option><option>Women & Child</option><option>Business & Employment</option><option>Social Security</option><option>Financial Inclusion</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Beneficiaries</label><input class="form-input" id="a-beneficiaries"></div>
+          <div class="form-group"><label>Benefits</label><textarea class="form-input" id="a-benefits" rows="2" style="resize:vertical"></textarea></div>
+          <div class="form-group"><label>Eligibility Criteria</label><textarea class="form-input" id="a-eligibility" rows="2" style="resize:vertical"></textarea></div>
+          <div class="form-group"><label>How to Apply</label><textarea class="form-input" id="a-how" rows="2" style="resize:vertical"></textarea></div>
+          <div class="form-group"><label>Required Documents (comma separated)</label><input class="form-input" id="a-docs"></div>
+          <div class="form-grid">
+            <div class="form-group"><label>Min Age</label><input class="form-input" type="number" id="a-agemin" value="0"></div>
+            <div class="form-group"><label>Max Age</label><input class="form-input" type="number" id="a-agemax" value="100"></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label>Gender</label><select class="form-input" id="a-gender"><option>All</option><option>Male</option><option>Female</option></select></div>
+            <div class="form-group"><label>State</label><input class="form-input" id="a-state" value="All India"></div>
+          </div>
+          <div class="form-group"><label>Official Link</label><input class="form-input" id="a-link" type="url"></div>
+          <button class="btn btn-primary" onclick="addScheme()">Add Scheme</button>
+          <span id="add-scheme-msg" style="margin-left:12px;font-size:13px"></span>
+        </div>
+      </div>
+
+      <!-- Users -->
+      <div id="admin-users" style="display:none">
+        <h1>Registered Users</h1>
+        <table class="data-table">
+          <thead><tr><th>#</th><th>Name</th><th>Email</th><th>State</th><th>Joined</th></tr></thead>
+          <tbody id="admin-users-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SCHEME DETAIL MODAL ════════ -->
+<div class="modal-overlay" id="schemeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="card-cat" id="modal-cat"></div>
+      <h2 id="modal-title"></h2>
+      <div class="modal-ministry" id="modal-ministry"></div>
+      <button class="modal-close" onclick="closeModal('schemeModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-section"><h3>📖 Description</h3><p id="modal-desc"></p></div>
+      <div class="info-section"><h3>👥 Beneficiaries</h3><p id="modal-beneficiaries"></p></div>
+      <div class="info-section"><h3>🎁 Benefits</h3><p id="modal-benefits"></p></div>
+      <div class="info-section"><h3>✅ Eligibility</h3><p id="modal-eligibility"></p></div>
+      <div class="info-section"><h3>📝 How to Apply</h3><p id="modal-how"></p></div>
+      <div class="info-section"><h3>📄 Required Documents</h3>
+        <ul class="docs-list" id="modal-docs"></ul>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="modal-save-btn" onclick="toggleSaveModal()">🔖 Save Scheme</button>
+        <button class="btn btn-outline" id="modal-link-btn" onclick="openOfficialLink()">🔗 Official Website ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ LOGIN MODAL ════════ -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal auth-form">
+    <div class="modal-header">
+      <h2>Welcome Back 🙏</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:4px">Login to your YojnaXpert account</p>
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Email</label><input class="form-input" id="login-email" type="email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input class="form-input" id="login-password" type="password" placeholder="••••••••"></div>
+      <div id="login-error" class="form-error"></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="login()">Login</button>
+      <p style="text-align:center;margin-top:16px;font-size:14px;color:var(--muted)">Don't have an account? <a href="#" style="color:var(--saffron);font-weight:600" onclick="closeModal('loginModal');openModal('registerModal')">Register</a></p>
+      <p style="text-align:center;margin-top:8px;font-size:13px;color:var(--muted)">Admin? Email: <b>admin@govscheme.in</b> | Pass: <b>admin123</b></p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ REGISTER MODAL ════════ -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Create Account 🎉</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:4px">Register to get personalized scheme recommendations</p>
+      <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>Full Name *</label><input class="form-input" id="reg-name" type="text" placeholder="Rahul Sharma"></div>
+        <div class="form-group"><label>Email *</label><input class="form-input" id="reg-email" type="email" placeholder="you@example.com"></div>
+      </div>
+      <div class="form-group"><label>Password *</label><input class="form-input" id="reg-password" type="password" placeholder="Min 6 characters"></div>
+      <div class="form-grid">
+        <div class="form-group"><label>Age</label><input class="form-input" id="reg-age" type="number" placeholder="25"></div>
+        <div class="form-group"><label>Gender</label><select class="form-input" id="reg-gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>State</label><select class="form-input" id="reg-state">
+          <option>Select State</option><option>Andhra Pradesh</option><option>Bihar</option><option>Gujarat</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option><option>Telangana</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+        </select></div>
+        <div class="form-group"><label>Category</label><select class="form-input" id="reg-category"><option>General</option><option>SC</option><option>ST</option><option>OBC</option><option>Minority</option></select></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>Annual Income</label><select class="form-input" id="reg-income"><option>Below 1 LPA</option><option>1-2.5 LPA</option><option>2.5-5 LPA</option><option>5-10 LPA</option><option>Above 10 LPA</option></select></div>
+        <div class="form-group"><label>Occupation</label><select class="form-input" id="reg-occupation"><option>Farmer</option><option>Laborer</option><option>Self-employed</option><option>Government Employee</option><option>Student</option><option>Housewife</option><option>Unemployed</option></select></div>
+      </div>
+      <div id="reg-error" class="form-error"></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="register()">Create Account</button>
+      <p style="text-align:center;margin-top:16px;font-size:14px;color:var(--muted)">Already registered? <a href="#" style="color:var(--saffron);font-weight:600" onclick="closeModal('registerModal');openModal('loginModal')">Login</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:5000/api';
+let token = localStorage.getItem('token');
+let currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+let currentPage = 1;
+let activeSchemeId = null;
+let currentAdminTab = 'dash';
+
+const CAT_EMOJIS = {
+  'Agriculture': '🌾', 'Housing': '🏠', 'Health': '❤️', 'Education': '📚',
+  'Women & Child': '👩', 'Business & Employment': '💼', 'Social Security': '🛡️', 'Financial Inclusion': '🏦'
+};
+
+// ─── INIT ───────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  updateNavbar();
+  loadHomeCategories();
+  loadHomeSchemes();
+  populateCategoryFilters();
+});
+
+// ─── NAVIGATION ─────────────────────────────────────────
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const navEl = document.getElementById(`nav-${page}`);
+  if (navEl) navEl.classList.add('active');
+
+  if (page === 'schemes') { currentPage = 1; loadSchemes(); }
+  if (page === 'eligible') checkEligibility();
+  if (page === 'saved') loadSaved();
+  if (page === 'profile') loadProfile();
+  if (page === 'admin') loadAdminDash();
+}
+
+// ─── AUTH ────────────────────────────────────────────────
+function updateNavbar() {
+  const right = document.getElementById('nav-right');
+  if (currentUser) {
+    right.innerHTML = `
+      <button class="btn btn-outline" onclick="showPage('profile')">👤 ${currentUser.name.split(' ')[0]}</button>
+      ${currentUser.role === 'admin' ? '<button class="btn btn-outline" onclick="showPage(\'admin\')">⚙️ Admin</button>' : ''}
+      <button class="btn btn-outline" onclick="logout()">Logout</button>
+    `;
+  } else {
+    right.innerHTML = `
+      <button class="btn btn-outline" onclick="openModal('loginModal')">Login</button>
+      <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
+    `;
+  }
+}
+
+async function login() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  document.getElementById('login-error').textContent = '';
+  try {
+    const res = await fetch(`${API}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+    const data = await res.json();
+    if (!res.ok) { document.getElementById('login-error').textContent = data.error; return; }
+    token = data.token; currentUser = data.user;
+    localStorage.setItem('token', token); localStorage.setItem('user', JSON.stringify(currentUser));
+    closeModal('loginModal'); updateNavbar(); showToast('Welcome back, ' + currentUser.name + '! 🙏', 'success');
+  } catch { document.getElementById('login-error').textContent = 'Server error. Is the backend running?'; }
+}
+
+async function register() {
+  const body = {
+    name: document.getElementById('reg-name').value,
+    email: document.getElementById('reg-email').value,
+    password: document.getElementById('reg-password').value,
+    age: document.getElementById('reg-age').value,
+    gender: document.getElementById('reg-gender').value,
+    state: document.getElementById('reg-state').value,
+    category: document.getElementById('reg-category').value,
+    income: document.getElementById('reg-income').value,
+    occupation: document.getElementById('reg-occupation').value
+  };
+  document.getElementById('reg-error').textContent = '';
+  try {
+    const res = await fetch(`${API}/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) { document.getElementById('reg-error').textContent = data.error; return; }
+    token = data.token; currentUser = data.user;
+    localStorage.setItem('token', token); localStorage.setItem('user', JSON.stringify(currentUser));
+    closeModal('registerModal'); updateNavbar(); showToast('Account created! Welcome to YojnaXpert 🎉', 'success');
+  } catch { document.getElementById('reg-error').textContent = 'Server error. Is the backend running?'; }
+}
+
+function logout() {
+  token = null; currentUser = null;
+  localStorage.removeItem('token'); localStorage.removeItem('user');
+  updateNavbar(); showPage('home'); showToast('Logged out successfully');
+}
+
+// ─── SCHEMES ─────────────────────────────────────────────
+async function loadHomeSchemes() {
+  try {
+    const res = await fetch(`${API}/schemes?limit=6`);
+    const { schemes, total } = await res.json();
+    document.getElementById('stat-schemes').textContent = total;
+    renderSchemes(schemes, 'home-schemes-grid');
+  } catch { renderMockSchemes(); }
+}
+
+async function loadSchemes() {
+  const search = document.getElementById('schemes-search')?.value || '';
+  const category = document.getElementById('filter-category')?.value || '';
+  const gender = document.getElementById('filter-gender')?.value || '';
+  const age = document.getElementById('filter-age')?.value || '';
+  const grid = document.getElementById('all-schemes-grid');
+  grid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const params = new URLSearchParams({ search, category, gender, age, page: currentPage, limit: 9 });
+    const res = await fetch(`${API}/schemes?${params}`);
+    const { schemes, pages } = await res.json();
+    renderSchemes(schemes, 'all-schemes-grid');
+    renderPagination(pages, 'schemes-pagination');
+  } catch { grid.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not connect to server</h3><p>Make sure the backend is running on port 5000</p></div>'; }
+}
+
+async function loadHomeCategories() {
+  try {
+    const res = await fetch(`${API}/categories`);
+    const cats = await res.json();
+    const container = document.getElementById('home-categories');
+    const all = ['All', ...cats];
+    container.innerHTML = all.map(c => `
+      <div class="cat-pill ${c === 'All' ? 'active' : ''}" onclick="filterByCategory('${c}', this)">
+        <span class="cat-emoji">${CAT_EMOJIS[c] || '📌'}</span> ${c}
+      </div>
+    `).join('');
+  } catch {}
+}
+
+async function populateCategoryFilters() {
+  try {
+    const res = await fetch(`${API}/categories`);
+    const cats = await res.json();
+    const sel = document.getElementById('filter-category');
+    cats.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); });
+  } catch {}
+}
+
+function filterByCategory(cat, el) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  showPage('schemes');
+  document.getElementById('filter-category').value = cat === 'All' ? '' : cat;
+  loadSchemes();
+}
+
+function renderSchemes(schemes, containerId) {
+  const grid = document.getElementById(containerId);
+  if (!schemes.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><h3>No schemes found</h3><p>Try different filters</p></div>';
+    return;
+  }
+  grid.innerHTML = schemes.map(s => schemeCard(s)).join('');
+}
+
+function schemeCard(s) {
+  const catClass = `cat-${s.category.split(' ')[0]}`;
+  const emoji = CAT_EMOJIS[s.category] || '📌';
+  return `
+    <div class="scheme-card">
+      <div class="card-header">
+        <div class="card-cat ${catClass}">${emoji} ${s.category}</div>
+        <div class="card-title">${s.title}</div>
+        <div class="card-ministry">🏛️ ${s.ministry}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">${s.description}</div>
+        <div class="card-tags">
+          <span class="card-tag">🎯 ${s.state}</span>
+          <span class="card-tag">👤 ${s.gender}</span>
+          <span class="card-tag">🎂 ${s.age_min}–${s.age_max}y</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary btn-sm" onclick="openScheme(${s.id})">View Details</button>
+        <button class="btn btn-outline btn-sm" onclick="quickSave(${s.id}, this)">🔖 Save</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderMockSchemes() {
+  const mock = [{id:1,title:'PM Kisan Samman Nidhi',ministry:'Agriculture Ministry',category:'Agriculture',description:'₹6,000/year for small farmers directly into bank accounts.',state:'All India',gender:'All',age_min:18,age_max:100}];
+  renderSchemes(mock, 'home-schemes-grid');
+}
+
+// ─── SCHEME DETAIL ───────────────────────────────────────
+async function openScheme(id) {
+  activeSchemeId = id;
+  try {
+    const res = await fetch(`${API}/schemes/${id}`);
+    const s = await res.json();
+    const catClass = `cat-${s.category.split(' ')[0]}`;
+    document.getElementById('modal-cat').className = `card-cat ${catClass}`;
+    document.getElementById('modal-cat').textContent = `${CAT_EMOJIS[s.category] || '📌'} ${s.category}`;
+    document.getElementById('modal-title').textContent = s.title;
+    document.getElementById('modal-ministry').textContent = '🏛️ ' + s.ministry;
+    document.getElementById('modal-desc').textContent = s.description;
+    document.getElementById('modal-beneficiaries').textContent = s.beneficiaries;
+    document.getElementById('modal-benefits').textContent = s.benefits;
+    document.getElementById('modal-eligibility').textContent = s.eligibility;
+    document.getElementById('modal-how').textContent = s.how_to_apply;
+    document.getElementById('modal-docs').innerHTML = s.documents.split(',').map(d => `<li>${d.trim()}</li>`).join('');
+    document.getElementById('modal-link-btn').style.display = s.link ? 'inline-flex' : 'none';
+    document.getElementById('modal-link-btn').dataset.link = s.link;
+    openModal('schemeModal');
+  } catch { showToast('Could not load scheme details', 'error'); }
+}
+
+function openOfficialLink() {
+  const link = document.getElementById('modal-link-btn').dataset.link;
+  if (link) window.open(link, '_blank');
+}
+
+async function toggleSaveModal() {
+  if (!token) { closeModal('schemeModal'); openModal('loginModal'); return; }
+  await quickSave(activeSchemeId, document.getElementById('modal-save-btn'));
+}
+
+async function quickSave(id, btn) {
+  if (!token) { showToast('Please login to save schemes', 'error'); return; }
+  try {
+    const res = await fetch(`${API}/saved/${id}`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } });
+    const data = await res.json();
+    if (data.saved) { showToast('Scheme saved! 🔖', 'success'); btn.textContent = '✅ Saved'; }
+    else { showToast('Already saved!'); }
+  } catch { showToast('Error saving', 'error'); }
+}
+
+// ─── ELIGIBILITY ─────────────────────────────────────────
+async function checkEligibility() {
+  const grid = document.getElementById('eligible-schemes-grid');
+  const empty = document.getElementById('eligible-empty');
+  if (!token) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const res = await fetch(`${API}/schemes/eligible/check`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const schemes = await res.json();
+    renderSchemes(schemes, 'eligible-schemes-grid');
+    document.getElementById('stat-eligible').textContent = schemes.length;
+  } catch { grid.innerHTML = ''; empty.style.display = 'block'; }
+}
+
+// ─── SAVED ───────────────────────────────────────────────
+async function loadSaved() {
+  const grid = document.getElementById('saved-grid');
+  const empty = document.getElementById('saved-empty');
+  if (!token) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  grid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const res = await fetch(`${API}/saved`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const schemes = await res.json();
+    if (!schemes.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    document.getElementById('stat-saved').textContent = schemes.length;
+    renderSchemes(schemes, 'saved-grid');
+  } catch { grid.innerHTML = ''; empty.style.display = 'block'; }
+}
+
+// ─── PROFILE ─────────────────────────────────────────────
+async function loadProfile() {
+  if (!currentUser) return;
+  try {
+    const res = await fetch(`${API}/auth/profile`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const user = await res.json();
+    document.getElementById('profile-avatar').textContent = user.name[0].toUpperCase();
+    document.getElementById('profile-name').textContent = user.name;
+    document.getElementById('profile-email').textContent = user.email;
+    document.getElementById('edit-name').value = user.name || '';
+    document.getElementById('edit-age').value = user.age || '';
+    document.getElementById('edit-gender').value = user.gender || 'Male';
+    document.getElementById('edit-state').value = user.state || '';
+    document.getElementById('edit-category').value = user.category || 'General';
+    document.getElementById('edit-income').value = user.income || 'Below 1 LPA';
+    document.getElementById('edit-occupation').value = user.occupation || 'Farmer';
+    const saved = await fetch(`${API}/saved`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const savedSchemes = await saved.json();
+    document.getElementById('stat-saved').textContent = savedSchemes.length;
+  } catch {}
+}
+
+async function updateProfile() {
+  const body = {
+    name: document.getElementById('edit-name').value,
+    age: document.getElementById('edit-age').value,
+    gender: document.getElementById('edit-gender').value,
+    state: document.getElementById('edit-state').value,
+    category: document.getElementById('edit-category').value,
+    income: document.getElementById('edit-income').value,
+    occupation: document.getElementById('edit-occupation').value
+  };
+  try {
+    const res = await fetch(`${API}/auth/profile`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (res.ok) {
+      currentUser.name = body.name;
+      localStorage.setItem('user', JSON.stringify(currentUser));
+      updateNavbar();
+      showToast('Profile updated! ✅', 'success');
+    }
+  } catch { showToast('Error updating profile', 'error'); }
+}
+
+// ─── ADMIN ───────────────────────────────────────────────
+function adminTab(tab) {
+  currentAdminTab = tab;
+  ['dash','schemes-list','add','users'].forEach(t => {
+    document.getElementById(`admin-${t}`).style.display = t === tab ? 'block' : 'none';
+    document.getElementById(`admin-nav-${t}`).classList.toggle('active', t === tab);
+  });
+  if (tab === 'dash') loadAdminDash();
+  if (tab === 'schemes-list') loadAdminSchemes();
+  if (tab === 'users') loadAdminUsers();
+}
+
+async function loadAdminDash() {
+  try {
+    const res = await fetch(`${API}/admin/stats`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const data = await res.json();
+    document.getElementById('a-total-schemes').textContent = data.totalSchemes;
+    document.getElementById('a-total-users').textContent = data.totalUsers;
+    document.getElementById('a-total-saved').textContent = data.totalSaved;
+    const bd = document.getElementById('admin-cat-breakdown');
+    bd.innerHTML = data.byCategory.map(c => `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <div style="width:140px;font-size:14px">${CAT_EMOJIS[c.category] || '📌'} ${c.category}</div>
+        <div style="flex:1;background:var(--border);border-radius:99px;height:10px">
+          <div style="width:${Math.min(c.count*10,100)}%;height:100%;background:var(--saffron);border-radius:99px"></div>
+        </div>
+        <div style="font-size:14px;font-weight:600;min-width:24px">${c.count}</div>
+      </div>
+    `).join('');
+  } catch {}
+}
+
+async function loadAdminSchemes() {
+  try {
+    const res = await fetch(`${API}/admin/schemes`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const schemes = await res.json();
+    const tbody = document.getElementById('admin-schemes-tbody');
+    tbody.innerHTML = schemes.map((s, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td style="font-weight:600;max-width:200px">${s.title}</td>
+        <td><span class="card-cat cat-${s.category.split(' ')[0]}" style="font-size:11px">${s.category}</span></td>
+        <td>${s.state}</td>
+        <td><span style="color:${s.status==='active'?'var(--green)':'#DC2626'};font-weight:600">${s.status}</span></td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="deleteScheme(${s.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch {}
+}
+
+async function loadAdminUsers() {
+  try {
+    const res = await fetch(`${API}/admin/users`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const users = await res.json();
+    const tbody = document.getElementById('admin-users-tbody');
+    tbody.innerHTML = users.map((u, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td style="font-weight:600">${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.state || '–'}</td>
+        <td style="color:var(--muted);font-size:13px">${new Date(u.created_at).toLocaleDateString('en-IN')}</td>
+      </tr>
+    `).join('');
+  } catch {}
+}
+
+async function deleteScheme(id) {
+  if (!confirm('Delete this scheme?')) return;
+  try {
+    await fetch(`${API}/admin/schemes/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+    showToast('Scheme deleted', 'success'); loadAdminSchemes();
+  } catch {}
+}
+
+async function addScheme() {
+  const body = {
+    title: document.getElementById('a-title').value,
+    description: document.getElementById('a-desc').value,
+    ministry: document.getElementById('a-ministry').value,
+    category: document.getElementById('a-category').value,
+    beneficiaries: document.getElementById('a-beneficiaries').value,
+    benefits: document.getElementById('a-benefits').value,
+    eligibility: document.getElementById('a-eligibility').value,
+    how_to_apply: document.getElementById('a-how').value,
+    documents: document.getElementById('a-docs').value,
+    link: document.getElementById('a-link').value,
+    state: document.getElementById('a-state').value,
+    gender: document.getElementById('a-gender').value,
+    age_min: document.getElementById('a-agemin').value,
+    age_max: document.getElementById('a-agemax').value,
+  };
+  if (!body.title || !body.description) { document.getElementById('add-scheme-msg').textContent = 'Title and Description required'; return; }
+  try {
+    const res = await fetch(`${API}/admin/schemes`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (res.ok) {
+      document.getElementById('add-scheme-msg').innerHTML = '<span style="color:var(--green)">✅ Scheme added!</span>';
+      showToast('Scheme added successfully!', 'success');
+    }
+  } catch { document.getElementById('add-scheme-msg').textContent = 'Error adding scheme'; }
+}
+
+// ─── UTILS ───────────────────────────────────────────────
+function heroSearch() {
+  const q = document.getElementById('hero-search-input').value;
+  showPage('schemes');
+  document.getElementById('schemes-search').value = q;
+  loadSchemes();
+}
+
+function renderPagination(pages, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  for (let i = 1; i <= pages; i++) {
+    const btn = document.createElement('button');
+    btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+    btn.textContent = i;
+    btn.onclick = () => { currentPage = i; loadSchemes(); };
+    container.appendChild(btn);
+  }
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); }));
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
